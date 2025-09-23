@@ -86,9 +86,15 @@ export class BlueberryStackMain extends cdk.Stack {
       uri: `s3://${supplementalBucket.bucketName}`
     });
     
-    const cris_sonnet_3_5_v2 = bedrock.CrossRegionInferenceProfile.fromConfig({
+    const cris_sonnet_4_v1 = bedrock.CrossRegionInferenceProfile.fromConfig({
       geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
-      model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
+      
+      //declaring model manually because the cdk used does not support claude 4.0
+      model: new BedrockFoundationModel('anthropic.claude-sonnet-4-20250514-v1:0', { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: false }),
+
+      
+      
+      //model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
     });
 
     
@@ -197,7 +203,7 @@ export class BlueberryStackMain extends cdk.Stack {
     const agent = new bedrock.Agent(this, 'Agent', {
       name: 'Agent-with-knowledge-base',
       description: 'This agent is responsible for processing non-quantitative queries using PDF files and knowledge base.',
-      foundationModel: cris_sonnet_3_5_v2,
+      foundationModel: cris_sonnet_4_v1,
       shouldPrepareAgent: true,
       userInputEnabled:true,
       knowledgeBases: [kb],
