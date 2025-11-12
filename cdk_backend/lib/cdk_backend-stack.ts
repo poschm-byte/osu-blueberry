@@ -89,12 +89,12 @@ export class BlueberryStackMain extends cdk.Stack {
     const cris_sonnet_4_v1 = bedrock.CrossRegionInferenceProfile.fromConfig({
       geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
       
-      //declaring model manually because the cdk used does not support claude 4.0
-      model: new BedrockFoundationModel('anthropic.claude-sonnet-4-20250514-v1:0', { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: false }),
+      
+      model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_4_SONNET_V1_0,
 
       
       
-      //model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
+      
     });
 
     
